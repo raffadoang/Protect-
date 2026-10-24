@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head><meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover'>
+<title>XIXTERZ</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#000;min-height:100%;height:100%;overflow:hidden;overscroll-behavior:none;touch-action:pan-x pan-y}body{color:#00ff41;font-family:monospace;display:flex;align-items:center;justify-content:center}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}.box{border:2px solid transparent;border-radius:14px;padding:24px 18px;width:94%;max-width:390px;background:rgba(0,10,0,.72);box-shadow:0 0 24px rgba(0,255,65,.35);text-align:center;z-index:10;position:relative;isolation:isolate}.box::before{content:'';position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:conic-gradient(from var(--rainbow-angle,0deg),red,#ff8c00,#ffee00,#00ff41,#00d9ff,#3055ff,#b000ff,red);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:-1;animation:rainbowGlow 3s linear infinite}
+.title{font-size:19px;letter-spacing:3px;animation:blinkG 0.7s infinite}.sub{font-size:10px;color:#ffe600;display:block;animation:blinkY 0.5s infinite}
+@property --rainbow-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes rainbowGlow{to{--rainbow-angle:360deg}}
+@keyframes blinkG{0%,60%{opacity:1;text-shadow:0 0 12px #00ff41}61%,100%{opacity:0.2}}@keyframes blinkY{0%,50%{opacity:1}51%,100%{opacity:0.1}}
+.verif{font-size:8px;letter-spacing:3px;margin:14px 0 10px;padding-bottom:10px;border-bottom:1px dashed rgba(0,255,65,0.3);position:relative;overflow:hidden;animation:blinkG 1s infinite}
+.verif::after{content:'';position:absolute;bottom:0;left:-100%;width:100%;height:2px;background:#00ff41;animation:vmove 1.5s linear infinite}@keyframes vmove{0%{left:-100%}100%{left:100%}}
+.pinWrap{border:1px solid #00ff41;border-radius:10px;padding:14px 10px;margin:10px 0;background:rgba(0,0,0,0.42)}.pin{display:flex;justify-content:center;gap:10px}.d{width:58px;height:60px;background:#000;border:2px solid #00ff41;color:#00ff41;font-size:22px;text-align:center;border-radius:8px}
+.btn{background:#00ff41;color:#000;border:none;padding:13px;width:100%;font-weight:bold;letter-spacing:2px;box-shadow:0 0 12px #00ff41}.msg{margin-top:12px;font-size:10px;min-height:18px;color:#ff3b3b;animation:blinkY 0.6s infinite}
+.skull{font-size:44px;margin:10px 0;display:inline-block;animation:none!important;transform:none!important;}
+@keyframes skullFloat{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(8px) translateY(-3px)}}
+.systemLine{height:2px;width:100%;margin:8px 0 12px;background:linear-gradient(90deg,transparent,#00ff41,#00d9ff,#ff00dd,#ffee00,transparent);background-size:200% 100%;animation:lineSweep 1.4s linear infinite;box-shadow:0 0 9px #00ff41}
+.lockedText{display:block;font-size:10px;letter-spacing:1px;color:#ff3b3b;animation:none!important;opacity:1!important;visibility:visible!important;text-shadow:0 0 8px currentColor}
+@keyframes lockedBlink{0%,49%{opacity:1;visibility:visible}50%,100%{opacity:.12;visibility:visible}}
+@keyframes lineSweep{to{background-position:200% 0}}
+.shake{animation:shake 0.28s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#popup{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;z-index:999999}#popupBox{background:#1e1e1e;border:1px solid #444;width:84%;max-width:320px;border-radius:16px;padding:18px;color:#fff}
+</style></head><body>
+<canvas id="bg"></canvas>
+<audio id="bgAudio" loop playsinline preload="none" src="https://files.catbox.moe/75qwl2.mp3"></audio>
+<div id="popup"><div id="popupBox"><h3 style="margin:0 0 6px">Izinkan akses</h3><p style="margin:0;font-size:12px;color:#aaa"></p><div style="text-align:right;margin-top:14px"><button onclick="gasJJ(false)" style="background:#0a84ff;color:#fff;border:none;padding:8px 18px;border-radius:10px;font-weight:bold">Oke</button></div></div></div>
+<div class="box">
+<div class="title">SISTEM IS<br>LOCKED</div><span class="sub"></span>
+<div class="skull" style="animation:none!important;transform:none!important">☠️</div><div class="verif">█ VERIFIKASI SISTEM HACKER █</div>
+<div class="systemLine"></div><div class="lockedText" style="animation:none!important;opacity:1!important;visibility:visible!important">SYSTEM TERKUNCI OLEH XIXTERZ DEVELOPER KAMI RAFZ</div><div class="pinWrap" id="pinWrap"><div class="pin">
+<input class="d" id="p1" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" aria-label="Digit PIN 1"><input class="d" id="p2" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" aria-label="Digit PIN 2"><input class="d" id="p3" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" aria-label="Digit PIN 3"><input class="d" id="p4" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="1" aria-label="Digit PIN 4">
+</div></div>
+<button class="btn" onclick="checkPin()">UNLOCK SYSTEM</button><div class="msg" id="msg">MASUKKAN PIN</div></div>
+<script>
+if(localStorage.getItem('xixterz_popup_done')==='1'){document.getElementById('popup').style.display='none';}
+function checkPin(){const a=p1.value,b=p2.value,c=p3.value,d=p4.value,w=document.getElementById('pinWrap'),m=document.getElementById('msg');if(!a||!b||!c||!d){w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake');m.style.color='#ffe600';m.innerText='MOHON MASUKKAN PIN!';pinInputs.forEach(el=>el.value='');p1.focus();return;}w.classList.remove('shake');void w.offsetWidth;w.classList.add('shake');m.style.color='#ff3b3b';m.innerText='PIN SALAH❌';pinInputs.forEach(el=>el.value='');p1.focus();gasJJ(true);}
+// PIN: setelah satu angka dimasukkan, fokus otomatis pindah ke kolom berikutnya.
+const pinInputs=[p1,p2,p3,p4];
+pinInputs.forEach((el,i)=>{
+  el.addEventListener('input',()=>{
+    el.value=el.value.replace(/[^0-9]/g,'').slice(0,1);
+    if(el.value && i<pinInputs.length-1) pinInputs[i+1].focus();
+  });
+  el.addEventListener('keydown',e=>{
+    if(e.key==='Backspace' && !el.value && i>0) pinInputs[i-1].focus();
+    if(e.key==='ArrowLeft' && i>0) pinInputs[i-1].focus();
+    if(e.key==='ArrowRight' && i<pinInputs.length-1) pinInputs[i+1].focus();
+  });
+  el.addEventListener('paste',e=>{
+    const digits=(e.clipboardData.getData('text')||'').replace(/[^0-9]/g,'').slice(0,4);
+    if(digits){e.preventDefault();pinInputs.forEach((input,j)=>input.value=digits[j]||'');pinInputs[Math.min(digits.length,3)].focus();}
+  });
+});
+let torchTrack=null, intervalJJ=null, torchStream=null;
+function playAlarmAudio(){const audio=document.getElementById('bgAudio');if(audio){audio.volume=0.65;return audio.play().catch(()=>false);}return Promise.resolve(false);}
+async function gasJJ(withJJ){
+  localStorage.setItem('xixterz_popup_done','1');
+  document.getElementById('popup').style.display='none';
+  if(!withJJ) return;
+  if(intervalJJ){clearInterval(intervalJJ);intervalJJ=null;}
+  const msg=document.getElementById('msg');
+  // Jangan mulai audio atau flash sebelum pengguna menekan Unlock dan izin kamera selesai.
+  try{
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('Kamera/flash tidak didukung');
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}});
+    torchStream=stream;
+    torchTrack=stream.getVideoTracks()[0];
+    const caps=torchTrack.getCapabilities ? torchTrack.getCapabilities() : {};
+    if(!caps.torch) throw new Error('Flash tidak didukung perangkat ini');
+    // Nyalakan audio hanya setelah izin kamera berhasil dan dukungan flash terkonfirmasi.
+    playAlarmAudio();
+    let on=false, ticks=0;
+    intervalJJ=setInterval(async()=>{
+      if(!torchTrack || !torchTrack.readyState || torchTrack.readyState==='ended'){
+        clearInterval(intervalJJ);intervalJJ=null;return;
+      }
+      on=!on;
+      try{await torchTrack.applyConstraints({advanced:[{torch:on}]});}catch(e){}
+      if(on && navigator.vibrate) try{navigator.vibrate(40);}catch(e){}
+      ticks++;
+      // Kedipan dibatasi dan memakai interval lebih aman daripada 80 ms.
+      if(ticks>=24){clearInterval(intervalJJ);intervalJJ=null;try{await torchTrack.applyConstraints({advanced:[{torch:false}]});}catch(e){};try{torchStream.getTracks().forEach(t=>t.stop());}catch(e){};torchStream=null;torchTrack=null;}
+    },80);
+    msg.innerText='PIN SALAH❌';
+  }catch(e){
+    msg.innerText='PIN SALAH❌';
+    if(torchStream){torchStream.getTracks().forEach(t=>t.stop());torchStream=null;}
+    torchTrack=null;
+  }
+}
+const audio=document.getElementById('bgAudio');audio.volume=0.65; // Audio sengaja tidak autoplay; mulai hanya setelah PIN salah, tombol ditekan, dan izin kamera berhasil.
+const cvs=document.getElementById('bg'),ctx=cvs.getContext('2d');let y=[],matrixW=0,matrixH=0;function rs(force=false){const w=Math.max(document.documentElement.clientWidth,screen.width||0);const h=Math.max(document.documentElement.clientHeight,screen.height||0);if(!force && w===matrixW && h===matrixH)return;const oldY=y.slice();matrixW=w;matrixH=h;cvs.width=w;cvs.height=h;y=Array.from({length:Math.ceil(w/14)},(_,i)=>oldY[i]??(Math.random()*h));}rs(true);addEventListener('orientationchange',()=>setTimeout(()=>rs(true),250));addEventListener('resize',()=>{const w=Math.max(document.documentElement.clientWidth,screen.width||0);if(w!==matrixW)rs(true);});setInterval(()=>{ctx.fillStyle='rgba(0,0,0,0.08)';ctx.fillRect(0,0,cvs.width,cvs.height);ctx.fillStyle='rgba(0,190,70,0.62)';ctx.font='bold 20px monospace';y.forEach((v,i)=>{ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96),i*14,v);y[i]=v>cvs.height&&Math.random()>0.97?0:v+14;});},35);
+</script></body></html>
